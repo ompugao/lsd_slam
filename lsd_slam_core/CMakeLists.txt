@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   roscpp
   rosbag
+  cmake_modules
 )
 
 find_package(Eigen REQUIRED)
@@ -87,28 +88,30 @@ set(SOURCE_FILES
 
 include_directories(
   include
-  ${EIGEN3_INCLUDE_DIR}
+  ${G2O_INCLUDE_DIR}
+  ${EIGEN_INCLUDE_DIR}
   ${PROJECT_SOURCE_DIR}/src
   ${PROJECT_SOURCE_DIR}/thirdparty/Sophus
   ${CSPARSE_INCLUDE_DIR} #Has been set by SuiteParse
   ${CHOLMOD_INCLUDE_DIR} #Has been set by SuiteParse
 )
 
+link_directories("$ENV{HOME}/install/lib")
 
 # build shared library.
 add_library(lsdslam SHARED ${SOURCE_FILES})
-target_link_libraries(lsdslam ${FABMAP_LIB} ${G2O_LIBRARIES} ${catkin_LIBRARIES} csparse cxsparse )
+target_link_libraries(lsdslam ${FABMAP_LIB} ${G2O_LIBRARIES} ${catkin_LIBRARIES} csparse cxsparse g2o_csparse_extension pthread)
 #rosbuild_link_boost(lsdslam thread)
 
 
 # build live ros node
 add_executable(live_slam src/main_live_odometry.cpp)
-target_link_libraries(live_slam lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES})
+target_link_libraries(live_slam lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES} csparse cxsparse g2o_csparse_extension pthread X11)
 
 
 # build image node
 add_executable(dataset src/main_on_images.cpp)
-target_link_libraries(dataset lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES})
+target_link_libraries(dataset lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES} csparse cxsparse g2o_csparse_extension pthread)
 
 # TODO add INSTALL
 

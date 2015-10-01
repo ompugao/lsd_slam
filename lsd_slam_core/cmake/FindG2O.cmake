@@ -18,10 +18,22 @@ IF(UNIX)
   ENDIF(G2O_INCLUDE_DIR AND G2O_LIBRARIES)
 
   MESSAGE(STATUS "Searching for g2o ...")
-  FIND_PATH(G2O_INCLUDE_DIR
-    NAMES core math_groups types
-    PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/
-    PATH_SUFFIXES include/g2o include)
+  #FIND_PATH(G2O_INCLUDE_DIR
+  #  NAMES core math_groups types
+  #  PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/
+  #  PATH_SUFFIXES include/g2o include)
+  FIND_PATH(G2O_INCLUDE_DIR g2o/core/base_vertex.h
+    ${G2O_ROOT}/include
+    $ENV{G2O_ROOT}/include
+    $ENV{G2O_ROOT}
+    /usr/local/include
+    /usr/include
+    /opt/local/include
+    /sw/local/include
+    /sw/include
+    NO_DEFAULT_PATH
+    )
+
 
   IF (G2O_INCLUDE_DIR)
     MESSAGE(STATUS "Found g2o headers in: ${G2O_INCLUDE_DIR}")
@@ -30,51 +42,85 @@ IF(UNIX)
   FIND_LIBRARY(G2O_CORE_LIB             
     NAMES g2o_core 
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib 
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_STUFF_LIB            
     NAMES g2o_stuff 
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_TYPES_SLAM3D_LIB     
     NAMES g2o_types_slam3d 
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_SOLVER_CHOLMOD_LIB   
     NAMES g2o_solver_cholmod 
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_SOLVER_PCG_LIB       
     NAMES g2o_solver_pcg 
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_SOLVER_CSPARSE_LIB   
     NAMES g2o_solver_csparse 
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_INCREMENTAL_LIB      
     NAMES g2o_incremental 
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_CSPARSE_EXTENSION_LIB
     NAMES g2o_csparse_extension
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
   FIND_LIBRARY(G2O_TYPE_SBA
     NAMES g2o_types_sba
     PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
+    PATH_SUFFIXES lib)
+  FIND_LIBRARY(G2O_EXT_CSPARSE_LIB
+    NAMES g2o_ext_csparse
+    PATHS /usr/local /usr /opt/ros/$ENV{ROS_DISTRO}/lib
+    ${G2O_ROOT}/lib/Release
+    ${G2O_ROOT}/lib
+    $ENV{G2O_ROOT}/lib/Release
+    $ENV{G2O_ROOT}/lib
     PATH_SUFFIXES lib)
 
-
-  SET(G2O_LIBRARIES ${G2O_CSPARSE_EXTENSION_LIB}
-                    ${G2O_CORE_LIB}           
-                    ${G2O_STUFF_LIB}          
-                    ${G2O_TYPES_SLAM3D_LIB}   
-                    ${G2O_SOLVER_CHOLMOD_LIB} 
-                    ${G2O_SOLVER_PCG_LIB}     
-                    ${G2O_SOLVER_CSPARSE_LIB} 
-                    ${G2O_INCREMENTAL_LIB} 
-		    ${G2O_TYPE_SBA}                       
-                    )
+  SET(G2O_LIBRARIES ${G2O_CSPARSE_EXTENSION_LIB} ${G2O_EXT_CSPARSE_LIB} ${G2O_CORE_LIB} ${G2O_STUFF_LIB} ${G2O_TYPES_SLAM3D_LIB} ${G2O_SOLVER_CHOLMOD_LIB} ${G2O_SOLVER_PCG_LIB} ${G2O_SOLVER_CSPARSE_LIB} ${G2O_INCREMENTAL_LIB} ${G2O_TYPE_SBA})
 
 #  IF(G2O_LIBRARIES AND G2O_INCLUDE_DIR)
 #    SET(G2O_FOUND "YES")

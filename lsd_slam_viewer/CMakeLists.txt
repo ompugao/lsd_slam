@@ -7,7 +7,7 @@ project(lsd_slam_viewer)
 #  Release : w/o debug symbols, w/ optimization
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel : w/o debug symbols, w/ optimization, stripped binaries
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/thirdparty/Sophus)
 
@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   rosbag
   message_generation
   roslib
+  cmake_modules
 )
 
 find_package(OpenGL REQUIRED)
